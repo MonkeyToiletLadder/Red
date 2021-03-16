@@ -6,12 +6,14 @@
     Description: Pokemon generation one clone.
 '''
 
-from typing import *
-from type import *
-from stats import *
-from species import *
-from moves import *
-from conditions import *
+from typing import List
+from pokety import Type, TypeChart
+from stats import Stats, IndividualValues, EffortValues
+from species import Species, species
+from moves import Move
+from conditions import Condition
+from growth import experience_for_level
+import math
 
 type_chart = TypeChart()
 print(type_chart.multiplier(Type.Fire, [Type.Water, Type.Empty]))
@@ -67,12 +69,19 @@ class Pokemon:
             else:
                 self.stats[key] = math.floor( ( ( ( base[key] + ivs[key] ) * 2 + math.floor( math.ceil( math.sqrt( evs[key] ) ) / 4 ) ) * self.level ) / 100 ) + 5
 
+    def try_evolving(self):
+        evolution = species[self.species_index].evolution
+        if evolution.meets_requirements(p):
+            self.species_index = evolution.species_index
+
     def has_move(self, move_index: int):
         for move in moves:
             if move.id == move_index:
                 return True
         return False
     
-p = Pokemon(0,0,1,Condition(),0)
+p = Pokemon(0,0,4,Condition(),0)
 print(p.stats.__dict__)
 print(p.individual_values.__dict__)
+print(p.try_evolving())
+print(p.species_index)

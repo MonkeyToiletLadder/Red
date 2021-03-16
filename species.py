@@ -6,12 +6,12 @@
     Description: Pokemon generation one clone.
 '''
 
-from typing import *
-from type import *
-from stats import *
-from moves import *
-from growth import *
-from evolution import *
+from typing import List, Dict
+from pokety import Type
+from stats import Stats
+from moves import moves
+from growth import Growth
+from evolution import Evolution
 
 class Species:
     name: str
@@ -68,7 +68,7 @@ species = [
         [],                         # Machine Moves
         {},                         # Learned Moves
         Growth.Slow,                # Growth
-        None                        # Evolution
+        Evolution(1, level=5)       # Evolution
     ),
     Species(# 2
         "Kangaskhan",               
@@ -96,7 +96,7 @@ species = [
         [],
         {},
         Growth.MediumSlow,
-        Evolution()
+        None
     ),
     Species(# 4
         "Clefairy",
@@ -361,7 +361,8 @@ species = [
         [],
         [],
         {},
-        Growth.Slow
+        Growth.Slow,
+        None
     ),
     Species(# 23
         "Shellder",

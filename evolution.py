@@ -5,7 +5,6 @@
     March 10 2020
     Description: Pokemon generation one clone.
 '''
-from pokemon import *
 
 class Evolution:
     species_index: int
@@ -19,7 +18,7 @@ class Evolution:
         self.item = keywords.get('item', None)
         self.move = keywords.get('move', None)
 
-    def meets_requirements(pokemon: Pokemon) -> bool:
+    def meets_requirements(self, pokemon: 'Pokemon') -> bool:
         if self.level and pokemon.level < self.level:
             return False
         if self.item and pokemon.item != self.item:
