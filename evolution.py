@@ -9,6 +9,7 @@
 class Evolution:
     species_index: int
     level: int
+    trade: bool
     item: int
     move: int
 
@@ -17,6 +18,7 @@ class Evolution:
         self.level = keywords.get('level', None)
         self.item = keywords.get('item', None)
         self.move = keywords.get('move', None)
+        self.trade = keywords.get('trade', None)
 
     def meets_requirements(self, pokemon: 'Pokemon') -> bool:
         if self.level and pokemon.level < self.level:
@@ -24,6 +26,8 @@ class Evolution:
         if self.item and pokemon.item != self.item:
             return False
         if self.move and not pokemon.has_move(self.move):
+            return False
+        if self.trade and not pokemon.by_trade:
             return False
         return True
             

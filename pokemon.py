@@ -9,7 +9,7 @@
 from typing import List
 from pokety import Type, TypeChart
 from stats import Stats, IndividualValues, EffortValues
-from species import Species, species
+from species import species
 from moves import Move
 from conditions import Condition
 from growth import experience_for_level
@@ -32,6 +32,7 @@ class Pokemon:
     effort_values: EffortValues
     individual_values: IndividualValues
     stats: Stats
+    by_trade: bool
 
     def __init__(
         self,
@@ -58,9 +59,10 @@ class Pokemon:
         self.moves = []
         self.original_trainer_id = None
         self.experience = experience_for_level(species[species_index].growth, self.level)
+        self.by_trade = False
         
     def calculate_stats(self):
-        base = species[self.species_index].base_stats
+        base = self.base_stats()
         ivs = self.individual_values
         evs = self.effort_values
         for key, _ in self.stats:
@@ -70,18 +72,27 @@ class Pokemon:
                 self.stats[key] = math.floor( ( ( ( base[key] + ivs[key] ) * 2 + math.floor( math.ceil( math.sqrt( evs[key] ) ) / 4 ) ) * self.level ) / 100 ) + 5
 
     def try_evolving(self):
-        evolution = species[self.species_index].evolution
+        evolution = self.evolution()
         if evolution.meets_requirements(p):
             self.species_index = evolution.species_index
+        self.calculate_stats()
 
     def has_move(self, move_index: int):
         for move in moves:
             if move.id == move_index:
                 return True
         return False
+
+    def species(self):
+        return species[self.species_index]
+
+    def evolution(self):
+        return species[self.species_index].evolution
+
+    def base_stats(self):
+        return species[self.species_index].base_stats
     
-p = Pokemon(0,0,4,Condition(),0)
+p = Pokemon(0,0,5,Condition(),0)
 print(p.stats.__dict__)
-print(p.individual_values.__dict__)
-print(p.try_evolving())
-print(p.species_index)
+p.try_evolving()
+print(p.stats.__dict__)
