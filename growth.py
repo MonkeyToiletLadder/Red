@@ -7,8 +7,10 @@
 '''
 
 import math
+from enum import Enum
 
-class Growth:
+
+class Growth(Enum):
     MediumFast = 0
     MediumSlow = 1
     Fast = 2

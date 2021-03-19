@@ -1,5 +1,5 @@
 '''
-    evolutions.py
+    evolution.py
     Dylan Wisswell Vaxeral
     Igloo version 0.1.0
     March 10 2020
@@ -7,14 +7,9 @@
 '''
 
 class Evolution:
-    species_index: int
-    level: int
-    trade: bool
-    item: int
-    move: int
 
-    def __init__(self, species_index, **keywords):
-        self.species_index = species_index
+    def __init__(self, pokedex_number, **keywords):
+        self.species_index = pokedex_number - 1
         self.level = keywords.get('level', None)
         self.item = keywords.get('item', None)
         self.move = keywords.get('move', None)
@@ -27,7 +22,14 @@ class Evolution:
             return False
         if self.move and not pokemon.has_move(self.move):
             return False
-        if self.trade and not pokemon.by_trade:
+        # if self.trade != None and not self.trade:
+        #     return False
+        if self.trade ^ pokemon.by_trade:
             return False
+
+        pokemon.by_trade = False
+
         return True
-            
+
+if True:
+print("")
